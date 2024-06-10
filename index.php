@@ -1,102 +1,89 @@
-<?php
-// Menyertakan file konfigurasi
-global $mysqli;
-include 'includes/config.php';
-session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $mysqli->real_escape_string($_POST['username']);
-    $password = $_POST['password'];
-
-    $sql = "SELECT id, username, password FROM users WHERE username = '$username'";
-    $result = $mysqli->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['username'] = $row['username'];
-            header("Location: welcome.php");
-        } else {
-            echo "<p class='error'>Password salah.</p>";
-        }
-    } else {
-        echo "<p class='error'>Username tidak ditemukan.</p>";
-    }
-}
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
+        }
+        .hero {
+            height: 100vh;
+            background: url('path/to/your/image.jpg') no-repeat center center/cover;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 4rem;
             margin: 0;
         }
-        .login-container {
-            background-color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h2 {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 0.75rem;
+        .hero p {
+            font-size: 1.5rem;
             margin: 1rem 0;
-            border: none;
-            border-radius: 4px;
+        }
+        .hero a {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin-top: 1rem;
             background-color: #007bff;
             color: white;
-            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.2rem;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        input[type="submit"]:hover {
+        .hero a:hover {
             background-color: #0056b3;
         }
-        .error {
-            color: red;
-            margin-top: 1rem;
+        .hero-buttons {
+            margin-top: 2rem;
         }
-        .register-link {
-            display: block;
-            margin-top: 1rem;
-            color: #007bff;
-            text-decoration: none;
+        .hero-buttons a {
+            margin: 0 1rem;
         }
-        .register-link:hover {
-            text-decoration: underline;
+        .main-content {
+            padding: 2rem;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <h2>Login</h2>
-    <form method="POST" action="login.php">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="submit" value="Login">
-    </form>
-    <a href="register.php" class="register-link">Belum punya akun? Register di sini</a>
+<div class="hero">
+    <div class="hero-content">
+        <h1>Selamat Datang di Tiketin</h1>
+        <p>Pesan tiket acara favoritmu dengan mudah dan cepat.</p>
+        <div class="hero-buttons">
+            <a href="register.php">Daftar Sekarang</a>
+            <a href="login.php">Login</a>
+        </div>
+    </div>
+</div>
+<div class="main-content">
+    <h2>About Us</h2>
+    <p>Welcome to Tiketin, your number one source for all events. We're dedicated to providing you the best tickets with a focus on dependability, customer service, and uniqueness.</p>
+    <p>Founded in 2024 by a team of passionate event-goers, Tiketin has come a long way from its beginnings. When we first started out, our passion for making events accessible to everyone drove us to start our own business.</p>
+    <p>We hope you enjoy our services as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us.</p>
 </div>
 </body>
 </html>
